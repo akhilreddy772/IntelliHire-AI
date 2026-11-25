@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head><title>Compare Resumes</title></head>
+<body>
+<div layout:fragment="content">
+  <div class="page-header">
+    <h1 class="page-title">Compare Resumes</h1>
+    <p class="page-subtitle">Select two candidates to compare side-by-side</p>
+  </div>
+
+  <div th:if="${error}" class="flash flash-error" th:text="${error}"></div>
+
+  <div class="card">
+    <form method="post" th:action="@{/compare}" class="compare-form">
+      <div class="compare-selects">
+        <div class="form-group">
+          <label>Candidate 1</label>
+          <select name="id1" class="form-input" required>
+            <option value="">— Select —</option>
+            <option th:each="c : ${candidates}" th:value="${c.id}"
+                    th:text="${c.name + ' (' + c.score + '/100)'}">Name</option>
+          </select>
+        </div>
+        <div class="compare-vs">VS</div>
+        <div class="form-group">
+          <label>Candidate 2</label>
+          <select name="id2" class="form-input" required>
+            <option value="">— Select —</option>
+            <option th:each="c : ${candidates}" th:value="${c.id}"
+                    th:text="${c.name + ' (' + c.score + '/100)'}">Name</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Compare →</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>

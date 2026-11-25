@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head><title th:text="${result.name + ' — Result'}">Result</title></head>
+<body>
+<div layout:fragment="content">
+
+  <div class="page-header">
+    <h1 class="page-title" th:text="${result.name}">Candidate</h1>
+    <div class="page-actions">
+      <a th:href="@{/analyze}" class="btn">← Analyze Another</a>
+      <a th:href="@{'/export-pdf/' + ${candidate.id}}" class="btn btn-primary">📄 Export PDF</a>
+    </div>
+  </div>
+
+  <!-- Score + radar row -->
+  <div class="result-top-row">
+
+    <!-- Score ring -->
+    <div class="card score-card">
+      <div class="score-ring"
+           th:style="'background: conic-gradient(' + ${result.overallScore >= 75 ? '#22c55e' : result.overallScore >= 50 ? '#f59e0b' : '#ef4444'} + ' ' + ${result.overallScore * 3.6} + 'deg, #e5e7eb 0deg)'">
+        <div class="score-inner">
+          <div class="score-big" th:text="${result.overallScore}">0</div>
+          <div class="score-label">/ 100</div>
+        </div>
+      </div>
+      <h3 th:text="${result.overallScore >= 75 ? 'Strong Resume' : result.overallScore >= 50 ? 'Good Resume' : 'Needs Work'}">Rating</h3>
+
+      <!-- Contact info -->
+      <div class="contact-info">
+        <div th:if="${!result.email.empty}"><span>✉️</span> <span th:text="${result.email}"></span></div>
+        <div th:if="${!result.phone.empty}"><span>📱</span> <span th:text="${result.phone}"></span></div>
+        <div th:if="${result.hasLinkedIn}"><span>🔗</span> LinkedIn</div>
+        <div th:if="${result.hasGitHub}"><span>🐱</span> GitHub</div>
+        <div th:if="${result.estimatedYears > 0}">
+          <span>📅</span> <span th:text="${result.estimatedYears + ' years exp.'}"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Score breakdown radar -->
+    <div class="card chart-card">
+      <h3 class="card-title">Score Breakdown</h3>
+      <canvas id="radarChart" height="280"></canvas>
+    </div>
+
+    <!-- Sections -->
+    <div class="card">
+      <h3 class="card-title">Resume Sections</h3>
+      <div class="sections-grid">
+        <div th:each="entry : ${result.sections}" class="section-pill"
+             th:classappend="${entry.value} ? ' found' : ' missing'">
+          <span th:text="${entry.value ? '✓' : '✗'}"></span>
+          <span th:text="${#strings.capitalize(entry.key)}"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Skills -->
+  <div class="card">
+    <h3 class="card-title">Extracted Skills (<span th:text="${#lists.size(result.skills)}">0</span>)</h3>
+    <div th:each="catEntry : ${result.skillsByCategory}" class="skill-category">
+      <div class="skill-cat-label" th:text="${catEntry.key}">Category</div>
+      <div class="skill-pills">
+        <span th:each="skill : ${catEntry.value}" class="skill-pill" th:text="${skill}">skill</span>
+      </div>
+    </div>
+    <p th:if="${result.skills.isEmpty()}" class="muted">No skills detected.</p>
+  </div>
+
+  <!-- Tips -->
+  <div class="card" th:if="${!result.tips.isEmpty()}">
+    <h3 class="card-title">💡 Improvement Tips</h3>
+    <ul class="tips-list">
+      <li th:each="tip : ${result.tips}" th:text="${tip}">tip</li>
+    </ul>
+  </div>
+
+  <!-- Job matches -->
+  <div class="card" th:if="${!result.jobMatches.isEmpty()}">
+    <h3 class="card-title">🎯 Top Ranked Job Matches</h3>
+    <div class="job-matches">
+      <div th:each="job : ${result.jobMatches}" class="job-match-card">
+        <div class="job-match-header">
+          <div>
+            <div class="job-title" th:text="${job.title}">Title</div>
+            <div class="job-company" th:text="${job.company + ' · ' + job.location}">Co</div>
+          </div>
+          <div class="match-pct"
+               th:text="${job.matchPercent + '%'}"
+               th:style="'color:' + ${job.matchPercent >= 70 ? '#22c55e' : job.matchPercent >= 50 ? '#f59e0b' : '#6366f1'}">0%</div>
+        </div>
+        <div class="match-bar">
+          <div class="match-bar-fill" th:style="'width:' + ${job.matchPercent} + '%'"></div>
+        </div>
+        <div class="match-skills">
+          <span th:each="s : ${job.matchedSkills}" class="skill-pill skill-matched" th:text="${s}">s</span>
+          <span th:each="s : ${job.missingSkills}" class="skill-pill skill-missing" th:text="${s}">s</span>
+        </div>
+        <div class="job-meta">
+          <span th:text="${job.type}">Type</span> ·
+          <span th:text="${job.salary}">Salary</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script th:inline="javascript">
+    const breakdown = /*[[${result.scoreBreakdown}]]*/ {};
+    new Chart(document.getElementById('radarChart'), {
+      type: 'radar',
+      data: {
+        labels: Object.keys(breakdown).map(k => k.replace(/([A-Z])/g,' $1').trim()),
+        datasets: [{
+          label: 'Score',
+          data: Object.values(breakdown),
+          backgroundColor: 'rgba(99,102,241,0.2)',
+          borderColor: '#6366f1',
+          pointBackgroundColor: '#6366f1'
+        }]
+      },
+      options: {
+        scales: { r: { beginAtZero: true, max: 25 } },
+        plugins: { legend: { display: false } }
+      }
+    });
+  </script>
+</div>
+</body>
+</html>

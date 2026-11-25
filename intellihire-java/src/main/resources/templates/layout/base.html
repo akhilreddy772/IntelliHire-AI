@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title layout:title-pattern="$CONTENT_TITLE | IntelliHire AI">IntelliHire AI</title>
+  <link rel="stylesheet" th:href="@{/static/style.css}"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">IH</div>
+      <div>
+        <div class="logo-title">IntelliHire</div>
+        <div class="logo-sub">AI Recruiter</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a th:href="@{/}" th:classappend="${currentPage == 'dashboard'} ? ' active' : ''" class="nav-item">
+        <span class="nav-icon">📊</span> Dashboard
+      </a>
+      <a th:href="@{/analyze}" th:classappend="${currentPage == 'analyze'} ? ' active' : ''" class="nav-item">
+        <span class="nav-icon">🔍</span> Analyze Resume
+      </a>
+      <a th:href="@{/jobs}" th:classappend="${currentPage == 'jobs'} ? ' active' : ''" class="nav-item">
+        <span class="nav-icon">💼</span> Job Openings
+      </a>
+      <a th:href="@{/compare}" th:classappend="${currentPage == 'compare'} ? ' active' : ''" class="nav-item">
+        <span class="nav-icon">⚖️</span> Compare
+      </a>
+      <a th:href="@{/bulk-upload}" th:classappend="${currentPage == 'bulk'} ? ' active' : ''" class="nav-item">
+        <span class="nav-icon">📦</span> Bulk Upload
+      </a>
+      <a th:href="@{/custom-job}" th:classappend="${currentPage == 'custom-job'} ? ' active' : ''" class="nav-item">
+        <span class="nav-icon">➕</span> Post a Job
+      </a>
+    </nav>
+
+    <div class="sidebar-user">
+      <div class="user-avatar" th:text="${#strings.toUpperCase(#strings.substring(sessionUsername,0,1))}">R</div>
+      <div>
+        <div class="user-name" th:text="${sessionUsername}">User</div>
+        <div class="user-role" th:text="${sessionRole}">role</div>
+      </div>
+      <a th:href="@{/logout}" class="logout-btn" title="Logout">⏻</a>
+    </div>
+  </aside>
+
+  <!-- ── Main content area ── -->
+  <main class="main-content">
+    <div layout:fragment="content">
+      <!-- Page content goes here -->
+    </div>
+  </main>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,186 @@
+[
+  {
+    "id": 1,
+    "title": "Python Backend Developer",
+    "company": "NovaTech",
+    "location": "Hyderabad",
+    "type": "Full-time",
+    "salary": "8-14 LPA",
+    "description": "Build REST APIs and microservices using Python, Flask and Django. Work with SQL databases and deploy on AWS using Docker.",
+    "skills": [
+      "python",
+      "flask",
+      "django",
+      "sql",
+      "rest api",
+      "docker",
+      "aws",
+      "git"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Data Scientist",
+    "company": "Insight Analytics",
+    "location": "Bengaluru",
+    "type": "Full-time",
+    "salary": "12-22 LPA",
+    "description": "Develop machine learning models, perform data analysis and statistics, and present findings with dashboards.",
+    "skills": [
+      "python",
+      "machine learning",
+      "pandas",
+      "numpy",
+      "scikit-learn",
+      "sql",
+      "statistics",
+      "tableau"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Frontend Developer",
+    "company": "PixelCraft",
+    "location": "Remote",
+    "type": "Full-time",
+    "salary": "7-15 LPA",
+    "description": "Create responsive user interfaces with React, JavaScript and modern CSS. Collaborate with designers and backend teams.",
+    "skills": [
+      "javascript",
+      "react",
+      "html",
+      "css",
+      "typescript",
+      "git",
+      "rest api"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Full Stack Engineer",
+    "company": "CloudNest",
+    "location": "Pune",
+    "type": "Full-time",
+    "salary": "10-18 LPA",
+    "description": "Own features end to end using Node.js, React and MongoDB. Set up CI/CD pipelines.",
+    "skills": [
+      "javascript",
+      "node.js",
+      "react",
+      "mongodb",
+      "git",
+      "docker",
+      "ci/cd"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "DevOps Engineer",
+    "company": "InfraWorks",
+    "location": "Hyderabad",
+    "type": "Full-time",
+    "salary": "10-20 LPA",
+    "description": "Automate infrastructure with Terraform, Kubernetes and Jenkins. Manage Linux servers and cloud on AWS or Azure.",
+    "skills": [
+      "linux",
+      "docker",
+      "kubernetes",
+      "jenkins",
+      "terraform",
+      "aws",
+      "azure",
+      "bash"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Machine Learning Engineer",
+    "company": "DeepMind Labs",
+    "location": "Remote",
+    "type": "Full-time",
+    "salary": "15-28 LPA",
+    "description": "Train and deploy deep learning and NLP models using PyTorch and TensorFlow. Productionize LLM pipelines.",
+    "skills": [
+      "python",
+      "deep learning",
+      "pytorch",
+      "tensorflow",
+      "nlp",
+      "llm",
+      "docker",
+      "aws"
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Data Analyst",
+    "company": "BrightBI",
+    "location": "Chennai",
+    "type": "Full-time",
+    "salary": "5-10 LPA",
+    "description": "Analyze business data using SQL, Excel and Power BI. Build dashboards and communicate insights.",
+    "skills": [
+      "sql",
+      "excel",
+      "power bi",
+      "tableau",
+      "data analysis",
+      "communication",
+      "python"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Java Developer",
+    "company": "FinServe",
+    "location": "Mumbai",
+    "type": "Full-time",
+    "salary": "8-16 LPA",
+    "description": "Develop enterprise applications with Java and Spring Boot, MySQL and REST APIs in an agile team.",
+    "skills": [
+      "java",
+      "spring boot",
+      "mysql",
+      "rest api",
+      "git",
+      "agile",
+      "sql"
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Project Manager (Tech)",
+    "company": "AgileWorks",
+    "location": "Hyderabad",
+    "type": "Full-time",
+    "salary": "14-24 LPA",
+    "description": "Lead cross-functional teams using Agile and Scrum. Strong leadership, communication and project management.",
+    "skills": [
+      "project management",
+      "agile",
+      "scrum",
+      "leadership",
+      "communication",
+      "teamwork"
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Cloud Engineer",
+    "company": "SkyStack",
+    "location": "Remote",
+    "type": "Contract",
+    "salary": "12-20 LPA",
+    "description": "Design secure cloud architectures on AWS and GCP. Containerize services and manage CI/CD.",
+    "skills": [
+      "aws",
+      "gcp",
+      "docker",
+      "kubernetes",
+      "linux",
+      "python",
+      "ci/cd",
+      "terraform"
+    ]
+  }
+]
