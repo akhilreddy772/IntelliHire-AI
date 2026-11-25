@@ -80,6 +80,13 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
+        <!-- PostgreSQL driver (Render free DB) -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.3</version>
+        </dependency>
+
         <!-- MySQL support (optional, falls back to SQLite) -->
         <dependency>
             <groupId>com.mysql</groupId>
