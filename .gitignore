@@ -42,8 +42,14 @@ desktop.ini
 *.swo
 *~
 
-# ── Java compiled classes ─────────────────────────────────────
+# ── Java / Maven ──────────────────────────────────────────────
 *.class
+target/
+*.jar
+*.war
+*.ear
+!**/src/main/**
+!**/src/test/**
 
 # ── Release ZIP (large binary — regenerate from source) ───────
 intellihire_release.zip
