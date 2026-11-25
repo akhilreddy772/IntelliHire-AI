@@ -1,30 +1,33 @@
-# ── IntelliHire AI — Root Dockerfile (for Render.com deployment) ─────────────
-# Render clones the repo and looks for Dockerfile at the root by default.
-# The Flask app lives in the intellihire/ subdirectory.
-
-FROM python:3.10-slim
-
-# Prevent .pyc files and enable stdout/stderr logging
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+# ── IntelliHire AI — Root Dockerfile (Java/Spring Boot for Render.com) ────────
+# Multi-stage build: Maven build → JRE runtime
+FROM eclipse-temurin:21-jdk-jammy AS builder
 
 WORKDIR /app
 
-# Install system build deps
-RUN apt-get update && apt-get install -y --no-install-recommends gcc \
-    && rm -rf /var/lib/apt/lists/*
+# Copy Maven wrapper and pom first (layer cache for deps)
+COPY intellihire-java/pom.xml ./pom.xml
+COPY intellihire-java/src ./src
 
-# Install Python dependencies from intellihire/requirements.txt
-COPY intellihire/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Maven and build the JAR (skip tests for faster deploy)
+RUN apt-get update && apt-get install -y --no-install-recommends maven \
+    && mvn package -DskipTests -q \
+    && rm -rf /root/.m2 /var/lib/apt/lists/*
 
-# Copy the entire Flask app into /app
-COPY intellihire/ /app/
+# ── Runtime stage ─────────────────────────────────────────────────────────────
+FROM eclipse-temurin:21-jre-jammy
 
-# Ensure runtime directories exist
-RUN mkdir -p /app/uploads /app/data
+WORKDIR /app
 
-# Render sets $PORT at runtime; default to 5000 locally
-EXPOSE 5000
+COPY --from=builder /app/target/intellihire-ai-1.0.0.jar app.jar
 
-CMD ["python", "app.py"]
+# Copy static data (jobs.json, etc.)
+COPY intellihire-java/src/main/resources/data ./data
+
+RUN mkdir -p uploads data
+
+EXPOSE 8080
+
+# Render injects $PORT — Spring Boot reads server.port from env
+ENV JAVA_OPTS="-Xmx450m -Xms200m"
+
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -Dserver.port=${PORT:-8080} -jar app.jar"]
