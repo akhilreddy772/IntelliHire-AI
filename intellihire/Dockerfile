@@ -25,5 +25,6 @@ RUN mkdir -p /app/uploads /app/data
 
 EXPOSE 5000
 
-# Run with production WSGI or standard Flask runner
-CMD ["python", "app.py"]
+# Render sets $PORT dynamically; fall back to 5000 locally.
+# Using sh -c so the shell expands $PORT at runtime.
+CMD ["sh", "-c", "python app.py"]

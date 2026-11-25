@@ -521,4 +521,9 @@ def api_candidates():
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5000, debug=True)
+    # Render (and most cloud platforms) set the PORT env variable.
+    # Bind to 0.0.0.0 so the container is reachable from outside.
+    import os as _os
+    _port = int(_os.environ.get("PORT", 5000))
+    _debug = _os.environ.get("FLASK_DEBUG", "0") == "1"
+    app.run(host="0.0.0.0", port=_port, debug=_debug)
