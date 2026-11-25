@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Compare Resumes — IntelliHire AI{% endblock %}
+
+{% block body %}
+<div class="row header-row">
+  <div>
+    <h1>Candidate Comparison</h1>
+    <p class="sub">Select two candidate profiles to evaluate skills overlap, experience, ATS score metrics, and job suitability side-by-side.</p>
+  </div>
+</div>
+
+{% if candidates|length >= 2 %}
+  <div class="card" style="max-width: 780px;">
+    <div class="card-head">
+      <h3>Select Two Candidates to Compare</h3>
+      <span class="badge">Side-by-Side</span>
+    </div>
+
+    <form method="post" action="{{ url_for('compare') }}">
+      <div class="grid g2">
+        <div class="input-group">
+          <label class="input-label" for="candidate1">Candidate A</label>
+          <select id="candidate1" name="candidate1" class="form-control" required>
+            {% for c in candidates %}
+              <option value="{{ c.id }}" {% if loop.index == 1 %}selected{% endif %}>
+                {{ c.name }} (Score: {{ c.score }} | {{ c.top_job }})
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label class="input-label" for="candidate2">Candidate B</label>
+          <select id="candidate2" name="candidate2" class="form-control" required>
+            {% for c in candidates %}
+              <option value="{{ c.id }}" {% if loop.index == 2 %}selected{% endif %}>
+                {{ c.name }} (Score: {{ c.score }} | {{ c.top_job }})
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-lg" style="margin-top: 20px;">
+        ⚖️ Compare Candidates Now
+      </button>
+    </form>
+  </div>
+{% else %}
+  <div class="card empty-state">
+    <div class="empty-icon">👥</div>
+    <h4>At least two candidates required for comparison</h4>
+    <p class="mut">Please upload or analyze at least two resumes to unlock side-by-side comparison analytics.</p>
+    <a class="btn" href="{{ url_for('analyze') }}" style="margin-top: 14px;">Analyze a Resume Now →</a>
+  </div>
+{% endif %}
+{% endblock %}

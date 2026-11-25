@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Bulk Batch Results & Leaderboard — IntelliHire AI{% endblock %}
+
+{% block body %}
+<div class="row header-row">
+  <div>
+    <h1>Batch Evaluation Leaderboard</h1>
+    <p class="sub">Successfully processed {{ candidates|length }} resumes. Candidates are ranked by overall ATS score and job alignment.</p>
+  </div>
+  <a class="btn" href="{{ url_for('bulk_upload') }}">+ Upload Another Batch</a>
+</div>
+
+<div class="card table-card">
+  <div class="card-head">
+    <h3>Ranked Candidate Roster</h3>
+    <span class="badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">{{ candidates|length }} Candidates Evaluated</span>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Candidate</th>
+          <th>ATS Score</th>
+          <th>Extracted Skills</th>
+          <th>Best Position Match</th>
+          <th style="text-align: right;">View Evaluation</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in candidates %}
+          <tr>
+            <td>
+              <span class="badge" style="font-size: 13px; font-weight: 800; background: {% if loop.index == 1 %}#f59e0b{% elif loop.index == 2 %}#94a3b8{% elif loop.index == 3 %}#b45309{% else %}var(--line){% endif %}; color: #fff;">
+                #{{ loop.index }}
+              </span>
+            </td>
+            <td>
+              <a class="lnk" href="{{ url_for('result', cid=c.id) }}"><strong>{{ c.name }}</strong></a>
+              <div class="mut" style="font-size: 12px;">📎 {{ c.filename }}</div>
+            </td>
+            <td style="min-width: 140px;">
+              <span class="score-number {% if c.score >= 75 %}high{% elif c.score >= 50 %}med{% else %}low{% endif %}">
+                {{ c.score }}/100
+              </span>
+              <div class="bar">
+                <i style="width: {{ c.score }}%;" class="{% if c.score >= 75 %}bar-high{% elif c.score >= 50 %}bar-med{% else %}bar-low{% endif %}"></i>
+              </div>
+            </td>
+            <td>
+              <span class="badge-neutral">{{ c.skills_count }} skills detected</span>
+            </td>
+            <td>
+              <div><strong>{{ c.top_job }}</strong></div>
+              <span class="pill ok">{{ c.top_match }}% Match</span>
+            </td>
+            <td style="text-align: right;">
+              <a class="btn ghost-pri btn-sm" href="{{ url_for('result', cid=c.id) }}">Full Report →</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

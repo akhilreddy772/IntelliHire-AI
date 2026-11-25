@@ -1,0 +1,53 @@
+# ── Python ───────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# ── Virtual environments ──────────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+.env
+# (keep .env.example — it is a template, not secrets)
+
+# ── Database files ────────────────────────────────────────────
+*.db
+*.sqlite
+*.sqlite3
+# Keep the Java seed DB in Apps/
+!Apps/javaapp.db
+
+# ── Uploaded resumes (keep the placeholder) ──────────────────
+intellihire/uploads/*
+!intellihire/uploads/.gitkeep
+
+# ── Logs & runtime ───────────────────────────────────────────
+*.log
+*.pid
+
+# ── OS / editor junk ─────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ── Java compiled classes ─────────────────────────────────────
+*.class
+
+# ── Release ZIP (large binary — regenerate from source) ───────
+intellihire_release.zip
+
+# ── Scratch / temp files ──────────────────────────────────────
+scratch/
+*.tmp

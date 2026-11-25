@@ -1,0 +1,33 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: intellihire_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: intellihire
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./data/schema.sql:/docker-entrypoint-initdb.d/init.sql
+
+  web:
+    build: .
+    container_name: intellihire_app
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - SECRET_KEY=production-secure-random-key-change-in-prod
+      - DATABASE_URL=postgresql://postgres:postgrespassword@postgres:5432/intellihire
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+    depends_on:
+      - postgres
+    volumes:
+      - ./data:/app/data
+      - ./uploads:/app/uploads
+
+volumes:
+  pgdata:

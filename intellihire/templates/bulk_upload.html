@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Bulk Resume Upload — IntelliHire AI{% endblock %}
+
+{% block body %}
+<div class="row header-row">
+  <div>
+    <h1>Bulk Resume Screening & Ranking</h1>
+    <p class="sub">Upload multiple candidate resumes simultaneously to automatically parse, score, and rank candidates on a competitive leaderboard.</p>
+  </div>
+</div>
+
+<div class="analyze-container">
+  <form method="post" enctype="multipart/form-data" class="card analyze-form" id="bulkForm">
+    <div class="drop" id="bulkDropZone">
+      <div class="drop-icon">📁</div>
+      <h3 style="margin: 0 0 6px;">Select or drop multiple resumes</h3>
+      <p class="mut" style="margin: 0 0 16px; font-size: 13px;">Upload 2 to 50+ resumes at once (PDF, DOCX, TXT)</p>
+      
+      <label for="bulkFilesInput" class="btn btn-file">
+        Choose Resume Files
+      </label>
+      <input type="file" name="resumes" id="bulkFilesInput" accept=".pdf,.docx,.txt" multiple style="display: none;">
+      
+      <div id="bulkFileCountDisplay" class="selected-filename"></div>
+    </div>
+
+    <div class="form-actions" style="margin-top: 24px;">
+      <button type="submit" class="btn btn-lg" id="bulkSubmitBtn">
+        <span class="btn-text">⚡ Process & Rank Resumes</span>
+        <span class="btn-spinner" style="display:none;">⏳ Processing batch resumes...</span>
+      </button>
+      <span class="mut" style="font-size: 12px; margin-left: 14px;">Generates instant leaderboard and rankings</span>
+    </div>
+  </form>
+</div>
+
+<script>
+  const bulkDropZone = document.getElementById('bulkDropZone');
+  const bulkFilesInput = document.getElementById('bulkFilesInput');
+  const bulkFileCountDisplay = document.getElementById('bulkFileCountDisplay');
+  const bulkForm = document.getElementById('bulkForm');
+  const bulkSubmitBtn = document.getElementById('bulkSubmitBtn');
+  const btnText = bulkSubmitBtn.querySelector('.btn-text');
+  const btnSpinner = bulkSubmitBtn.querySelector('.btn-spinner');
+
+  ['dragenter', 'dragover'].forEach(e => {
+    bulkDropZone.addEventListener(e, (evt) => {
+      evt.preventDefault();
+      bulkDropZone.classList.add('hover');
+    });
+  });
+
+  ['dragleave', 'drop'].forEach(e => {
+    bulkDropZone.addEventListener(e, (evt) => {
+      evt.preventDefault();
+      bulkDropZone.classList.remove('hover');
+    });
+  });
+
+  bulkDropZone.addEventListener('drop', (evt) => {
+    if (evt.dataTransfer && evt.dataTransfer.files.length) {
+      bulkFilesInput.files = evt.dataTransfer.files;
+      updateDisplay(evt.dataTransfer.files.length);
+    }
+  });
+
+  bulkFilesInput.addEventListener('change', () => {
+    updateDisplay(bulkFilesInput.files.length);
+  });
+
+  function updateDisplay(count) {
+    bulkFileCountDisplay.textContent = `Selected: ${count} file(s) ready for batch analysis`;
+    bulkFileCountDisplay.style.display = 'inline-block';
+  }
+
+  bulkForm.addEventListener('submit', () => {
+    btnText.style.display = 'none';
+    btnSpinner.style.display = 'inline-block';
+    bulkSubmitBtn.disabled = true;
+    bulkSubmitBtn.style.opacity = '0.75';
+  });
+</script>
+{% endblock %}

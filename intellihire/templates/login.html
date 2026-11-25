@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In — IntelliHire AI{% endblock %}
+
+{% block body %}
+<div class="auth-wrap">
+  <div class="card auth-card">
+    <div class="auth-header">
+      <div class="logo" style="margin: 0 auto 12px; width: 44px; height: 44px; font-size: 24px;">⚡</div>
+      <h2>Welcome Back</h2>
+      <p class="mut">Sign in to your recruiter or candidate workspace</p>
+    </div>
+
+    <form method="post" class="auth-form">
+      <div class="input-group">
+        <label class="input-label" for="username">Username</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="e.g. recruiter or candidate" required autofocus>
+      </div>
+
+      <div class="input-group" style="margin-top: 14px;">
+        <label class="input-label" for="password">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+      </div>
+
+      <button type="submit" class="btn btn-lg" style="width: 100%; justify-content: center; margin-top: 20px;">
+        Sign In
+      </button>
+
+      <div class="auth-demo-accounts">
+        <span class="mut" style="font-size: 11px; font-weight: 700; text-transform: uppercase;">Pre-configured Demo Accounts:</span>
+        <div class="demo-acc-badge">
+          <span>👔 <strong>recruiter</strong> / <code>recruiter123</code> (Admin / Recruiter)</span>
+        </div>
+        <div class="demo-acc-badge">
+          <span>🎓 <strong>candidate</strong> / <code>candidate123</code> (Candidate Portal)</span>
+        </div>
+      </div>
+
+      <div class="auth-footer" style="margin-top: 20px; text-align: center;">
+        <span class="mut" style="font-size: 13px;">Don't have an account?</span>
+        <a href="{{ url_for('register') }}" class="lnk">Register now →</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
